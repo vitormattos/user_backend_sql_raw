@@ -86,6 +86,12 @@ class UserBackend implements \OCP\IUserBackend, \OCP\UserInterface
             return false;
         }
 
+        if ($validationClassName = $this->config->getValidationPasswordClass()) {
+            $validationClass = new $validationClassName();
+            if ($validationClass->validate($providedPassword, $retrievedPasswordHash)) {
+                return $providedUsername;
+            }
+        } else
         if (password_verify($providedPassword, $retrievedPasswordHash)) {
             return $providedUsername;
         } else {
@@ -215,7 +221,8 @@ class UserBackend implements \OCP\IUserBackend, \OCP\UserInterface
 
         $parameterSubstitutions = [
             ':username' => $username,
-            ':new_password_hash' => $this->hashPassword($newPassword)];
+            ':new_password_hash' => $newPasswordHash,
+        ];
 
         $dbUpdateWasSuccessful =
         $this->executeOrCatchExceptionAndReturnFalse($statement, $parameterSubstitutions);
@@ -310,6 +317,8 @@ class UserBackend implements \OCP\IUserBackend, \OCP\UserInterface
             || $algorithmFromConfig === 'sha256'
             || $algorithmFromConfig === 'md5') {
             $hashedPassword = $this->hashWithOldMethod($password, $algorithmFromConfig);
+        } elseif (class_exists($algorithmFromConfig)) {
+            $hashedPassword = (new $algorithmFromConfig())->hashPassword($password);
         }
         return $hashedPassword;
     }

@@ -61,6 +61,7 @@ This app has no user interface. All configuration is done via Nextcloud's system
        //'get_home' => '',
        //'create_user' => 'INSERT INTO users (local, domain, password_hash) VALUES (split_part(:username, \'@\', 1), split_part(:username, \'@\', 2), :password_hash)',
   ),
+  //'validation_password_class' => '\Namespace\Of\Your\Class', // You can create a class that implements `\OCA\UserBackendSqlRaw\IHashPassword`
  //'hash_algorithm_for_new_passwords' => 'bcrypt',
  ),
  ```

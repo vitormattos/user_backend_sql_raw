@@ -27,6 +27,7 @@ use \OCP\IConfig;
 class Config
 {
     const DEFAULT_HASH_ALGORITHM_FOR_NEW_PASSWORDS = 'bcrypt';
+    const DEFAULT_VALIDATION_PASSWORD_CLASS = '';
     const MAXIMUM_ALLOWED_PASSWORD_LENGTH = 100;
 
     const CONFIG_KEY = 'user_backend_sql_raw';
@@ -47,6 +48,7 @@ class Config
     const CONFIG_KEY_COUNT_USERS = 'count_users';
     const CONFIG_KEY_GET_HOME = 'get_home';
     const CONFIG_KEY_CREATE_USER = 'create_user';
+    const CONFIG_KEY_VALIDATION_PASSWORD_CLASS = 'validation_password_class';
 
     /* @var LoggerInterface */
     private $logger;
@@ -165,6 +167,11 @@ class Config
 
     }
 
+    public function getValidationPasswordClass(): string {
+        return $this->getConfigValueOrDefaultValue(self::CONFIG_KEY_VALIDATION_PASSWORD_CLASS
+            , self::DEFAULT_VALIDATION_PASSWORD_CLASS);
+    }
+
     /**
      * @return string hash algorithm to be used for password generation
      */
@@ -174,6 +181,9 @@ class Config
             (self::CONFIG_KEY_HASH_ALGORITHM_FOR_NEW_PASSWORDS
             , self::DEFAULT_HASH_ALGORITHM_FOR_NEW_PASSWORDS);
 
+        if (class_exists($hashAlgorithmFromConfig)) {
+            return $hashAlgorithmFromConfig;
+        }
         $normalizedHashAlgorithm = $this->normalize($hashAlgorithmFromConfig);
 
         if (!$this->hashAlgorithmIsSupported($normalizedHashAlgorithm)) {
