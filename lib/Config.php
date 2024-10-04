@@ -48,6 +48,13 @@ class Config
     const CONFIG_KEY_GET_HOME = 'get_home';
     const CONFIG_KEY_CREATE_USER = 'create_user';
 
+    const CONFIG_KEY_IN_GROUPS = 'get_in_groups';
+    const CONFIG_KEY_GROUPS = 'get_groups';
+    const CONFIG_KEY_USER_GROUPS = 'get_user_groups';
+    const CONFIG_KEY_USERS_IN_GROUP = 'get_users_in_group';
+    const CONFIG_KEY_GROUP_EXISTS = 'get_group_exists';
+    const CONFIG_KEY_GROUP_DETAILS = 'get_group_details';
+
     /* @var LoggerInterface */
     private $logger;
     private $appConfiguration;
@@ -233,6 +240,36 @@ class Config
     public function getQueryCreateUser()
     {
         return $this->getQueryStringOrFalse(self::CONFIG_KEY_CREATE_USER);
+    }
+
+    public function getQueryInGroup()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_IN_GROUPS);
+    }
+
+    public function getQueryGroups()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_GROUPS);
+    }
+
+    public function getQueryUserGroups()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_USER_GROUPS);
+    }
+
+    public function getQueryUsersInGroup()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_USERS_IN_GROUP);
+    }
+
+    public function getQueryGroupExists()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_GROUP_EXISTS);
+    }
+
+    public function getQueryGroupDetails()
+    {
+        return $this->getQueryStringOrFalse(self::CONFIG_KEY_GROUP_DETAILS);
     }
 
 

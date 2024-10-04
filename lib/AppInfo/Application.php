@@ -27,6 +27,7 @@ use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use Psr\Container\ContainerInterface;
 use \OCP\AppFramework\App;
+use OCP\Server;
 
 class Application extends App implements IBootstrap
 {
@@ -46,5 +47,8 @@ class Application extends App implements IBootstrap
         $userBackendSqlRaw = $context->getAppContainer()->get(\OCA\UserBackendSqlRaw\UserBackend::class);
         $userManager = $context->getAppContainer()->get('OCP\IUserManager');
         $userManager->registerBackend($userBackendSqlRaw);
+
+        $groupBackend = $context->getAppContainer()->get(\OCA\UserBackendSqlRaw\Backend\GroupBackend::class);
+        Server::get(\OCP\IGroupManager::class)->addBackend($groupBackend);
     }
 }
