@@ -68,6 +68,7 @@ This app has no user interface. All configuration is done via Nextcloud's system
        // 'get_group_details' => "SELECT g.name FROM groups WHERE name = :group",
   ),
  //'hash_algorithm_for_new_passwords' => 'bcrypt',
+ //'validation_password_class' => '\Namespace\Of\Your\Class', // You can create a class that implements `\OCA\UserBackendSqlRaw\IHashPassword`
  ),
  ```
 
